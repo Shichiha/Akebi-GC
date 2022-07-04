@@ -183,6 +183,7 @@ DO_APP_FUNC(0x0652EBC0, GameObject*, Component_1_get_gameObject, (Component_1* _
 DO_APP_FUNC(0x06551030, String*, Object_1_get_name, (Object_1* __this, MethodInfo* method));
 DO_APP_FUNC(0x0665DA90, Material__Array*, Renderer_GetMaterialArray, (Renderer* __this, MethodInfo* method));
 DO_APP_FUNC(0x0652FB40, void, Material_set_mainTexture, (Material* __this, Texture* value, MethodInfo* method));
+DO_APP_FUNC(0x06555A20, Vector3, Transform_get_localPosition, (Transform* __this, MethodInfo* method));
 
 
 // Music game event

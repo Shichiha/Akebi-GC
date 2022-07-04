@@ -19,6 +19,7 @@
 #include <cheat/player/RapidFire.h>
 
 #include <cheat/world/AutoLoot.h>
+#include <cheat/world/AutoDomain.h>
 #include <cheat/world/DialogSkip.h>
 #include <cheat/world/DumbEnemies.h>
 #include <cheat/world/ElementalSight.h>
@@ -93,6 +94,7 @@ namespace cheat
 			FEAT_INST(KillAura),
 			FEAT_INST(MobVacuum),
 			FEAT_INST(FakeTime),
+			FEAT_INST(AutoDomain),
 			
 
 			FEAT_INST(ChestTeleport),

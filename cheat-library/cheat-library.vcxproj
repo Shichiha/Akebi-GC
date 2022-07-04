@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\user\cheat\visuals\TextureChanger.h" />
+    <ClInclude Include="src\user\cheat\world\AutoDomain.h" />
     <ClInclude Include="src\user\cheat\world\AutoSeelie.h" />
     <ClInclude Include="src\user\cheat\world\FakeTime.h" />
     <ClInclude Include="src\user\cheat\debugger.h">
@@ -120,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\user\cheat\visuals\TextureChanger.cpp" />
+    <ClCompile Include="src\user\cheat\world\AutoDomain.cpp" />
     <ClCompile Include="src\user\cheat\world\AutoSeelie.cpp" />
     <ClCompile Include="src\user\cheat\world\FakeTime.cpp" />
     <ClCompile Include="src\user\cheat\debugger.cpp">
