@@ -55,7 +55,7 @@ namespace cheat::feature
         ConfigWidget("Game Speedup", f_GameSpeedEnabled, "Speeds Up Game with HotKey");
         if (f_GameSpeedEnabled)
         {
-            ConfigWidget("GameSpeedUp Key", f_GameSpeedKey, "Set GameSpeedUp Key");
+            ConfigWidget("GameSpeed Key", f_GameSpeedKey, "Set GameSpeed Key");
             ConfigWidget(f_GameSpeedVal, 0.1f, 2.0f, 50.0f, "Game Speedup Multiplier\nHigher Values can cause Sync Issues with Server\nBe Careful!");
         }
     }
@@ -84,27 +84,14 @@ namespace cheat::feature
         return instance;
     }
 
-    // Raised On Game Update
     void DialogSkip::OnGameUpdate()
     {
-        static bool isSpeed = false;
-        if (f_GameSpeedEnabled ? f_GameSpeedKey.value().IsPressed() : Hotkey(ImGuiKey_CapsLock).IsPressed() && !isSpeed)
-        {
-            isSpeed = true;
-            float gameSpeed = app::Time_get_timeScale(nullptr);
-            if (gameSpeed == 1.0f)
-                app::Time_set_timeScale(f_GameSpeedVal, nullptr);
-        }
-
-        if (f_GameSpeedEnabled ? !f_GameSpeedKey.value().IsPressed() : !Hotkey(ImGuiKey_CapsLock).IsPressed() && isSpeed)
-        {
-            isSpeed = false;
-            float gameSpeed = app::Time_get_timeScale(nullptr);
-            if (gameSpeed != 1.0f)
-                app::Time_set_timeScale(1.0f, nullptr);
-        }
-        // float gameSpeed = app::Time_get_timeScale(nullptr);
-        //LOG_DEBUG("GameSpeed: %f Enabled: %d Value: %f Key: %s", gameSpeed, f_GameSpeedEnabled, f_GameSpeedVal, f_GameSpeedKey);
+        static bool wonk = f_GameSpeedEnabled ? f_GameSpeedKey.value().IsPressed() : Hotkey(ImGuiKey_CapsLock).IsPressed();
+        static float gameSpeed = app::Time_get_timeScale(nullptr);
+        if (wonk && gameSpeed == 1.0f)
+            app::Time_set_timeScale(f_GameSpeedVal, nullptr);
+        if (!wonk && gameSpeed != 1.0f)
+            app::Time_set_timeScale(1.0f, nullptr);       
     }
 
     // Raised when dialog view updating
@@ -122,32 +109,19 @@ namespace cheat::feature
         if (f_FastDialog)
             app::Time_set_timeScale(f_TimeSpeedup, nullptr);
 
-        bool isImportant = false;
-        if (f_ExcludeImportant)
-        {
-            // TODO: Add a custom filter in the future where users can
-            // add their own name substrings of entities to avoid
-            // speeding up dialog on.
-            std::vector<std::string> impEntitiesNames = {
-                "Djinn",
-                "Katheryne",
-                "Wagner"
-            };
-            auto dialogPartnerID = context->fields._inteeID;
-            auto& manager = game::EntityManager::instance();
-            auto dialogPartner = manager.entity(dialogPartnerID);
-            auto dialogPartnerName = dialogPartner->name();
-            for (auto impEntityName : impEntitiesNames)
-            {
-                if (dialogPartnerName.find(impEntityName) != -1) {
-                    LOG_DEBUG("%s %s %d", dialogPartnerName.c_str(), impEntityName, dialogPartnerName.find(impEntityName));
-                    isImportant = true;
-                    break;
-                }
-            }
-        }
+        std::vector<std::string> impEntitiesNames = {
+            "Djinn",
+            "Katheryne",
+            "Wagner"
+        };
 
-        if (talkDialog->fields._inSelect && f_AutoSelectDialog && !isImportant)
+        auto dialogPartnerID = context->fields._inteeID;
+        auto& manager = game::EntityManager::instance();
+        auto dialogPartner = manager.entity(dialogPartnerID);
+        auto dialogPartnerName = dialogPartner->name();
+        bool important = f_ExcludeImportant && std::find(impEntitiesNames.begin(), impEntitiesNames.end(), dialogPartnerName) != impEntitiesNames.end();
+
+        if (talkDialog->fields._inSelect && f_AutoSelectDialog && !important)
         {
             int32_t value = 0;
             auto object = il2cpp_value_box((Il2CppClass*)*app::Int32__TypeInfo, &value);
@@ -164,8 +138,8 @@ namespace cheat::feature
     {
         CALL_ORIGIN(InLevelCutScenePageContext_UpdateView_Hook, __this, method);
 
-        DialogSkip& dialogSkip = DialogSkip::GetInstance();
-        dialogSkip.OnCutScenePageUpdate(__this);
+        DialogSkip& ds = DialogSkip::GetInstance();
+        ds.OnCutScenePageUpdate(__this);
     }
 
     // Raised when exiting a dialog. We try to hackishly return to normal value.
@@ -180,8 +154,8 @@ namespace cheat::feature
 
     static void CriwareMediaPlayer_Update(app::CriwareMediaPlayer* __this, MethodInfo* method)
     {
-        DialogSkip& dialogSkip = DialogSkip::GetInstance();
-        if (dialogSkip.f_CutsceneUSM)
+        DialogSkip& ds = DialogSkip::GetInstance();
+        if (ds.f_CutsceneUSM)
             app::CriwareMediaPlayer_Skip(__this, nullptr);
 
         return CALL_ORIGIN(CriwareMediaPlayer_Update, __this, method);
