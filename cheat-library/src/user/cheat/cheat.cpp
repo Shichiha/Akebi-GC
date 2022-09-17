@@ -64,7 +64,7 @@
 
 #include "GenshinCM.h"
 
-namespace cheat 
+namespace cheat
 {
 	static void InstallEventHooks();
 
@@ -129,13 +129,13 @@ namespace cheat
 			FEAT_INST(ChestIndicator),
 			FEAT_INST(ProfileChanger),
 			FEAT_INST(PaimonFollow),
+			FEAT_INST(EnablePeeking),
 			FEAT_INST(HideUI),
 			FEAT_INST(Browser),
-			FEAT_INST(EnablePeeking),
 			FEAT_INST(TextureChanger),
 			FEAT_INST(FreeCamera),
 			FEAT_INST(AnimationChanger)
-			
+
 			});
 #undef FEAT_INST
 
@@ -184,7 +184,7 @@ namespace cheat
 		events::GameUpdateEvent();
 		CheckAccountChanged();
 		SAFE_EEND();
-		
+
 		CALL_ORIGIN(GameManager_Update_Hook, __this, method);
 	}
 
@@ -195,7 +195,7 @@ namespace cheat
 		CALL_ORIGIN(LevelSyncCombatPlugin_RequestSceneEntityMoveReq_Hook, __this, entityId, syncInfo, isReliable, relseq, method);
 	}
 
-	static void InstallEventHooks() 
+	static void InstallEventHooks()
 	{
 		HookManager::install(app::GameManager_Update, GameManager_Update_Hook);
 		HookManager::install(app::MoleMole_LevelSyncCombatPlugin_RequestSceneEntityMoveReq, LevelSyncCombatPlugin_RequestSceneEntityMoveReq_Hook);
