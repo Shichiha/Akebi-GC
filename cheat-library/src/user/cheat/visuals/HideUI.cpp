@@ -18,9 +18,9 @@ namespace cheat::feature
     app::GameObject* RewardOverlay{};
     app::GameObject* InteractOverlay{};
     app::GameObject* ArLevelOverlay{};
-    
+
     HideUI::HideUI() : Feature(),
-		NFEX(f_Enabled, "Hide UI", "HideUI", "Visuals", false, false),
+        NFEX(f_Enabled, "Hide UI", "HideUI", "Visuals", false, false),
         NFEX(f_DamageOverlayHide, "Hide UI", "HideUI", "Visuals", false, false),
         NFEX(f_RadarOverlayHide, "Hide UI", "HideUI", "Visuals", false, false),
         NFEX(f_TopRightOverlayHide, "Hide UI", "HideUI", "Visuals", false, false),
@@ -33,7 +33,7 @@ namespace cheat::feature
         NFEX(f_RewardOverlayHide, "Hide UI", "HideUI", "Visuals", false, false),
         NFEX(f_InteractOverlayHide, "Hide UI", "HideUI", "Visuals", false, false),
         NFEX(f_ArLevelOverlayHide, "Hide UI", "HideUI", "Visuals", false, false)
-        
+
     {
         events::GameUpdateEvent += MY_METHOD_HANDLER(HideUI::OnGameUpdate);
     }
@@ -89,7 +89,7 @@ namespace cheat::feature
         {
             if (ui_camera == nullptr)
                 ui_camera = app::GameObject_Find(string_to_il2cppi("/UICamera"), nullptr);
-  
+
             if (ui_camera->fields._.m_CachedPtr != nullptr)
                 app::GameObject_SetActive(ui_camera, false, nullptr);
         }
@@ -104,12 +104,12 @@ namespace cheat::feature
             }
         }
         //dmg overlay
+        DamageOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ParticleDamageTextContainer"), nullptr);
         if (f_DamageOverlayHide)
         {
-            DamageOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ParticleDamageTextContainer"), nullptr);
             if (DamageOverlay == nullptr)
                 return;
-
+            
             if (DamageOverlay->fields._.m_CachedPtr != nullptr)
                 app::GameObject_SetActive(DamageOverlay, false, nullptr);
         }
@@ -119,17 +119,15 @@ namespace cheat::feature
             {
                 if (DamageOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(DamageOverlay, true, nullptr);
-
-                DamageOverlay = nullptr;
             }
         }
         //radar overlay
+        RadarOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/MapInfo"), nullptr);
         if (f_RadarOverlayHide)
         {
-            RadarOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/MapInfo"), nullptr);
             if (RadarOverlay == nullptr)
                 return;
-
+            
             if (RadarOverlay->fields._.m_CachedPtr != nullptr)
                 app::GameObject_SetActive(RadarOverlay, false, nullptr);
         }
@@ -139,14 +137,13 @@ namespace cheat::feature
             {
                 if (RadarOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(RadarOverlay, true, nullptr);
-
-                RadarOverlay = nullptr;
             }
         }
         //top btn overlay
+        TopRightOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GrpMainBtn"), nullptr);
         if (f_TopRightOverlayHide)
         {
-            TopRightOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GrpMainBtn"), nullptr);
+            
             if (TopRightOverlay == nullptr)
                 return;
 
@@ -159,14 +156,12 @@ namespace cheat::feature
             {
                 if (TopRightOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(TopRightOverlay, true, nullptr);
-
-                TopRightOverlay = nullptr;
             }
         }
         //ping overlay
+        PingOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/NetworkLatency"), nullptr);
         if (f_PingOverlayHide)
         {
-            PingOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/NetworkLatency"), nullptr);
             if (PingOverlay == nullptr)
                 return;
 
@@ -179,14 +174,12 @@ namespace cheat::feature
             {
                 if (PingOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(PingOverlay, true, nullptr);
-
-                PingOverlay = nullptr;
             }
         }
         //team overlay
+        TeamOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/TeamBtnContainer"), nullptr);
         if (f_TeamOverlayHide)
         {
-            TeamOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/TeamBtnContainer"), nullptr);
             if (TeamOverlay == nullptr)
                 return;
 
@@ -199,14 +192,12 @@ namespace cheat::feature
             {
                 if (TeamOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(TeamOverlay, true, nullptr);
-
-                TeamOverlay = nullptr;
             }
         }
         //skills overlay
+        SkillOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer"), nullptr);
         if (f_SkillOverlayHide)
         {
-            SkillOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer"), nullptr);
             if (SkillOverlay == nullptr)
                 return;
 
@@ -219,14 +210,12 @@ namespace cheat::feature
             {
                 if (SkillOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(SkillOverlay, true, nullptr);
-
-                SkillOverlay = nullptr;
             }
         }
         //hp bar Overlay
+        HpOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GameInfo"), nullptr);
         if (f_HpOverlayHide)
         {
-            HpOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GameInfo"), nullptr);
             if (HpOverlay == nullptr)
                 return;
 
@@ -239,14 +228,12 @@ namespace cheat::feature
             {
                 if (HpOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(HpOverlay, true, nullptr);
-
-                HpOverlay = nullptr;
             }
         }
         //chat Overlay
+        ChatOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/Chat"), nullptr);
         if (f_ChatOverlayHide)
         {
-            ChatOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/Chat"), nullptr);
             if (ChatOverlay == nullptr)
                 return;
 
@@ -259,14 +246,12 @@ namespace cheat::feature
             {
                 if (ChatOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(ChatOverlay, true, nullptr);
-
-                ChatOverlay = nullptr;
             }
         }
         //reward overlay
+        RewardOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/SpecialDialogs"), nullptr);
         if (f_RewardOverlayHide)
         {
-            RewardOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/SpecialDialogs"), nullptr);
             if (RewardOverlay == nullptr)
                 return;
 
@@ -279,14 +264,12 @@ namespace cheat::feature
             {
                 if (RewardOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(RewardOverlay, true, nullptr);
-
-                RewardOverlay = nullptr;
             }
         }
         //interact overlay
+        InteractOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/InteePanel"), nullptr);
         if (f_InteractOverlayHide)
         {
-            InteractOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/InteePanel"), nullptr);
             if (InteractOverlay == nullptr)
                 return;
 
@@ -299,14 +282,12 @@ namespace cheat::feature
             {
                 if (InteractOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(InteractOverlay, true, nullptr);
-
-                InteractOverlay = nullptr;
             }
         }
         //ar level overlay
+        ArLevelOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/SuspendBars/PlayerExpTipsDialog"), nullptr);
         if (f_ArLevelOverlayHide)
         {
-            ArLevelOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/SuspendBars/PlayerExpTipsDialog"), nullptr);
             if (ArLevelOverlay == nullptr)
                 return;
 
@@ -319,8 +300,6 @@ namespace cheat::feature
             {
                 if (ArLevelOverlay->fields._.m_CachedPtr != nullptr)
                     app::GameObject_SetActive(ArLevelOverlay, true, nullptr);
-
-                ArLevelOverlay = nullptr;
             }
         }
     }
