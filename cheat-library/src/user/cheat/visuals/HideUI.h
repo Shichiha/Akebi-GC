@@ -11,6 +11,7 @@ namespace cheat::feature
 		config::Field<config::Toggle<Hotkey>> f_Enabled;
 		config::Field<bool> f_DamageOverlayHide;
 		config::Field<bool> f_RadarOverlayHide;
+		config::Field<bool> f_QuestHintHide;
 		config::Field<bool> f_TopRightOverlayHide;
 		config::Field<bool> f_PingOverlayHide;
 		config::Field<bool> f_TeamOverlayHide;
@@ -34,4 +35,3 @@ namespace cheat::feature
 		HideUI();
 	};
 }
-

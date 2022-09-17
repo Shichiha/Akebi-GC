@@ -12,8 +12,6 @@ namespace cheat::feature
 	app::GameObject* mainCam = nullptr;
 	app::Object_1* freeCamObj = nullptr;
 	app::Object_1* mainCamObj = nullptr;
-	app::GameObject* damageOverlay = nullptr;
-	app::GameObject* hpOverlay = nullptr;
 	app::Transform* freeCam_Transform;
 	app::Component_1* freeCam_Camera;
 	app::Component_1* mainCam_Camera;
@@ -26,8 +24,6 @@ namespace cheat::feature
 		NF(f_Enabled, "Free Camera", "Visuals::FreeCamera", false),
 		NF(f_FreezeAnimation, "Freeze Character Animation", "Visuals::FreeCamera", false),
 		NF(f_BlockInput, "Block Input", "Visuals::FreeCamera", false),
-		NF(f_DamageOverlay, "Damage Overlay", "Visuals::FreeCamera", false),
-		NF(f_HpOverlay, "Enemy HP Overlay", "Visuals::FreeCamera", false),
 		NF(f_Speed, "Speed", "Visuals::FreeCamera", 1.0f),
 		NF(f_LookSens, "Look Sensitivity", "Visuals::FreeCamera", 1.0f),
 		NF(f_RollSpeed, "Roll Speed", "Visuals::FreeCamera", 1.0f),
@@ -63,11 +59,6 @@ namespace cheat::feature
 		ConfigWidget("Enable", f_Enabled);
 		ConfigWidget("Freeze Character Animation", f_FreezeAnimation, "Freezes the active character's animation.");
 		ConfigWidget("Block User Input", f_BlockInput, "If enabled, any input will be blocked.");
-		if (f_Enabled)
-		{
-			ConfigWidget("Toggle Damage Overlay", f_DamageOverlay, "Remove damage output overlay");
-			ConfigWidget("Toggle Enemy HP Overlay", f_HpOverlay, "Remove enemy HP overlay");
-		}
 
 		if (ImGui::BeginTable("FreeCameraDrawTable", 1, ImGuiTableFlags_NoBordersInBody))
 		{
@@ -274,22 +265,10 @@ namespace cheat::feature
 			}
 			if (freeCamObj)
 				EnableFreeCam();
-
-			if (damageOverlay == nullptr)
-				damageOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ParticleDamageTextContainer"), nullptr);
-			else
-				app::GameObject_SetActive(damageOverlay, !f_DamageOverlay, nullptr);
-
-			if (hpOverlay == nullptr)
-				hpOverlay = app::GameObject_Find(string_to_il2cppi("AvatarBoardCanvasV2(Clone)"), nullptr);
-			else
-				app::GameObject_SetActive(hpOverlay, !f_DamageOverlay, nullptr);
 		}
 		else
 		{
 			DisableFreeCam();
-			damageOverlay = nullptr;
-			hpOverlay = nullptr;
 		}
 
 		if (f_BlockInput)
