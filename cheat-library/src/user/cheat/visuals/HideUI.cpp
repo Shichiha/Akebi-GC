@@ -24,7 +24,16 @@ namespace cheat::feature
         app::GameObject* Slot2Key;
     }
     namespace SkillQ {
-
+        app::GameObject* ImageComponent;
+        app::GameObject* MaxHalo;
+        app::GameObject* Effect;
+        app::GameObject* Icon;
+        app::GameObject* Progress;
+        app::GameObject* EnergyEffect;
+        app::GameObject* CD;
+        app::GameObject* CDEnd;
+        app::GameObject* UIEffectContainer;
+        app::GameObject* Slot5Key;
     }
     app::GameObject* HpOverlay;
     app::GameObject* ChatOverlay;
@@ -240,12 +249,13 @@ namespace cheat::feature
         //skills overlay
         if (f_SkillOverlayHide)
         {
+            // Skill2
             auto Skill2Grp = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/"), nullptr);
             if (Skill2Grp == nullptr)
                 return;
 
-            auto image = app::GameObject_GetComponentByName(Skill2Grp, string_to_il2cppi("Image"), nullptr);
-            SkillE::ImageComponent = app::Component_1_get_gameObject(image, nullptr);
+            auto imageSkill2 = app::GameObject_GetComponentByName(Skill2Grp, string_to_il2cppi("Image"), nullptr);
+            SkillE::ImageComponent = app::Component_1_get_gameObject(imageSkill2, nullptr);
             SkillE::Icon = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/Icon"), nullptr);
             SkillE::CD = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/CD"), nullptr);
             SkillE::CDEnd = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/CDEnd"), nullptr);
@@ -254,8 +264,26 @@ namespace cheat::feature
             SkillE::Skillpoint = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/SkillPoint"), nullptr);
             SkillE::Slot2Key = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2Key"), nullptr);
 
+            // Skill5
+            auto Skill5Grp = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/"), nullptr);
+            if (Skill5Grp == nullptr)
+                return;
+
+            auto imageSkill5 = app::GameObject_GetComponentByName(Skill5Grp, string_to_il2cppi("Image"), nullptr);
+            SkillQ::ImageComponent = app::Component_1_get_gameObject(imageSkill5, nullptr);
+            SkillQ::MaxHalo = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/MaxHalo"), nullptr);
+            SkillQ::Effect = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Effect"), nullptr);
+            SkillQ::Icon = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Icon"), nullptr);
+            SkillQ::Progress = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Progress"), nullptr);
+            SkillQ::EnergyEffect = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/EnergyEffect"), nullptr);
+            SkillQ::CD = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/CD"), nullptr);
+            SkillQ::CDEnd = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/CDEnd"), nullptr);
+            SkillQ::UIEffectContainer = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/UIEffectContainer"), nullptr);
+            SkillQ::Slot5Key = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5Key"), nullptr);
+
             if (SkillE::ImageComponent->fields._.m_CachedPtr != nullptr)
             {
+                // Skill2
                 app::GameObject_SetActive(SkillE::ImageComponent, false, nullptr);
                 app::GameObject_SetActive(SkillE::Icon, false, nullptr);
                 app::GameObject_SetActive(SkillE::CD, false, nullptr);  // you only need to disable CD once for all GrpSkill
@@ -264,6 +292,17 @@ namespace cheat::feature
                 app::GameObject_SetActive(SkillE::ImgHighlight, false, nullptr);
                 app::GameObject_SetActive(SkillE::Skillpoint, false, nullptr);
                 app::GameObject_SetActive(SkillE::Slot2Key, false, nullptr);
+                // Skill5
+                app::GameObject_SetActive(SkillQ::ImageComponent, false, nullptr);
+                app::GameObject_SetActive(SkillQ::MaxHalo, false, nullptr);
+                app::GameObject_SetActive(SkillQ::Effect, false, nullptr);
+                app::GameObject_SetActive(SkillQ::Icon, false, nullptr);
+                app::GameObject_SetActive(SkillQ::Progress, false, nullptr);
+                app::GameObject_SetActive(SkillQ::EnergyEffect, false, nullptr);
+                app::GameObject_SetActive(SkillQ::CD, false, nullptr); // you only need to disable CD once for all GrpSkill
+                app::GameObject_SetActive(SkillQ::CDEnd, false, nullptr);
+                app::GameObject_SetActive(SkillQ::UIEffectContainer, false, nullptr);
+                app::GameObject_SetActive(SkillQ::Slot5Key, false, nullptr);
             }
         }
         else
@@ -272,6 +311,7 @@ namespace cheat::feature
             {
                 if (SkillE::ImageComponent->fields._.m_CachedPtr != nullptr)
                 {
+                    // Skill2
                     app::GameObject_SetActive(SkillE::ImageComponent, true, nullptr);
                     app::GameObject_SetActive(SkillE::Icon, true, nullptr);
                     //app::GameObject_SetActive(SkillE::CD, true, nullptr);
@@ -280,6 +320,19 @@ namespace cheat::feature
                     app::GameObject_SetActive(SkillE::ImgHighlight, true, nullptr);
                     app::GameObject_SetActive(SkillE::Skillpoint, true, nullptr);
                     app::GameObject_SetActive(SkillE::Slot2Key, true, nullptr);
+
+                    // Skill5
+                    app::GameObject_SetActive(SkillQ::ImageComponent, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::MaxHalo, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::Effect, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::Icon, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::Progress, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::EnergyEffect, true, nullptr);
+                    //app::GameObject_SetActive(SkillQ::CD, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::CDEnd, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::UIEffectContainer, true, nullptr);
+                    app::GameObject_SetActive(SkillQ::Slot5Key, true, nullptr);
+
                 }
 
                 SkillE::ImageComponent = nullptr;
@@ -290,6 +343,17 @@ namespace cheat::feature
                 SkillE::ImgHighlight = nullptr;
                 SkillE::Skillpoint = nullptr;
                 SkillE::Slot2Key = nullptr;
+
+                SkillQ::ImageComponent = nullptr;
+                SkillQ::MaxHalo = nullptr;
+                SkillQ::Effect = nullptr;
+                SkillQ::Icon = nullptr;
+                SkillQ::Progress = nullptr;
+                SkillQ::EnergyEffect = nullptr;
+                SkillQ::CD = nullptr;
+                SkillQ::CDEnd = nullptr;
+                SkillQ::UIEffectContainer = nullptr;
+                SkillQ::Slot5Key = nullptr;
             }
         }
         //hp bar Overlay
