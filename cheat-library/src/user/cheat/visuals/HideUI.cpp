@@ -6,41 +6,6 @@
 
 namespace cheat::feature
 {
-    app::GameObject* ui_camera;
-    app::GameObject* DamageOverlay;
-    app::GameObject* RadarOverlay;
-    app::GameObject* QuestHintOverlay;
-    app::GameObject* TopRightOverlay;
-    app::GameObject* PingOverlay;
-    app::GameObject* TeamOverlay;
-    namespace SkillE {
-        app::GameObject* ImageComponent;
-        app::GameObject* Icon;
-        app::GameObject* CD;
-        app::GameObject* CDEnd;
-        app::GameObject* UIEffectContainer;
-        app::GameObject* ImgHighlight;
-        app::GameObject* Skillpoint;
-        app::GameObject* Slot2Key;
-    }
-    namespace SkillQ {
-        app::GameObject* ImageComponent;
-        app::GameObject* MaxHalo;
-        app::GameObject* Effect;
-        app::GameObject* Icon;
-        app::GameObject* Progress;
-        app::GameObject* EnergyEffect;
-        app::GameObject* CD;
-        app::GameObject* CDEnd;
-        app::GameObject* UIEffectContainer;
-        app::GameObject* Slot5Key;
-    }
-    app::GameObject* HpOverlay;
-    app::GameObject* ChatOverlay;
-    app::GameObject* RewardOverlay;
-    app::GameObject* InteractOverlay;
-    app::GameObject* ArLevelOverlay;
-
     HideUI::HideUI() : Feature(),
         NFEX(f_Enabled, "Hide UI", "HideUI", "Visuals", false, false),
         NFEX(f_DamageOverlayHide, "Hide UI", "HideUI", "Visuals", false, false),
@@ -108,353 +73,68 @@ namespace cheat::feature
     {
         UPDATE_DELAY(500);
 
-        if (f_Enabled)
-        {
-            if (ui_camera == nullptr)
-                ui_camera = app::GameObject_Find(string_to_il2cppi("/UICamera"), nullptr);
+        std::map<bool, app::GameObject*> paths = {
+            {f_Enabled,app::GameObject_Find(string_to_il2cppi("/UICamera"), nullptr)},
+            {f_DamageOverlayHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ParticleDamageTextContainer"), nullptr)},
+            {f_RadarOverlayHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/MapInfo"), nullptr)},
+            {f_QuestHintHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Dialogs/DialogLayer(Clone)/InLevelQuestHintDialog/EventPanel/QuestHintTrace(Clone)/BtnTrace"), nullptr)},
+            {f_TopRightOverlayHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GrpMainBtn"), nullptr)},
+            {f_PingOverlayHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/NetworkLatency"), nullptr)},
+            {f_TeamOverlayHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/TeamBtnContainer"), nullptr)},
+            {f_HpOverlayHide,app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GameInfo"), nullptr)},
+            {f_ChatOverlayHide,app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/Chat"), nullptr)},
+            {f_RewardOverlayHide,app::GameObject_Find(string_to_il2cppi("/Canvas/SpecialDialogs"), nullptr)},
+            {f_InteractOverlayHide, app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/InteePanel/Viewport"), nullptr)},
+            {f_ArLevelOverlayHide,app::GameObject_Find(string_to_il2cppi("/Canvas/SuspendBars/PlayerExpTipsDialog"), nullptr)}
+        };
 
-            if (ui_camera->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(ui_camera, false, nullptr);
-        }
-        else
+        for (auto &path : paths)
         {
-            if (ui_camera)
-            {
-                if (ui_camera->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(ui_camera, true, nullptr);
-
-                ui_camera = nullptr;
-            }
+            bool exists = path.second->fields._.m_CachedPtr != nullptr;
+            if (exists)
+                app::GameObject_SetActive(path.second, !(path.first && path.second!=nullptr), nullptr);
         }
-        //dmg overlay
-        if (f_DamageOverlayHide)
-        {
-            DamageOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ParticleDamageTextContainer"), nullptr);
-            if (DamageOverlay == nullptr)
-                return;
 
-            if (DamageOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(DamageOverlay, false, nullptr);
-        }
-        else
-        {
-            if (DamageOverlay)
-            {
-                if (DamageOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(DamageOverlay, true, nullptr);
-
-                DamageOverlay = nullptr;
-            }
-        }
-        //radar overlay
-        if (f_RadarOverlayHide)
-        {
-            RadarOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/MapInfo"), nullptr);
-            if (RadarOverlay == nullptr)
-                return;
-
-            if (RadarOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(RadarOverlay, false, nullptr);
-        }
-        else
-        {
-            if (RadarOverlay)
-            {
-                if (RadarOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(RadarOverlay, true, nullptr);
-
-                RadarOverlay = nullptr;
-            }
-        }
-        //quest hint overlay
-        if (f_QuestHintHide)
-        {
-            QuestHintOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Dialogs/DialogLayer(Clone)/InLevelQuestHintDialog/EventPanel/QuestHintTrace(Clone)/BtnTrace"), nullptr);
-            if (QuestHintOverlay == nullptr)
-                return;
-
-            if (QuestHintOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(QuestHintOverlay, false, nullptr);
-        }
-        else
-        {
-            if (QuestHintOverlay)
-            {
-                if (QuestHintOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(QuestHintOverlay, true, nullptr);
-
-                QuestHintOverlay = nullptr;
-            }
-        }
-        //top btn overlay
-        if (f_TopRightOverlayHide)
-        {
-            TopRightOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GrpMainBtn"), nullptr);
-            if (TopRightOverlay == nullptr)
-                return;
-
-            if (TopRightOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(TopRightOverlay, false, nullptr);
-        }
-        else
-        {
-            if (TopRightOverlay)
-            {
-                if (TopRightOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(TopRightOverlay, true, nullptr);
-
-                TopRightOverlay = nullptr;
-            }
-        }
-        //ping overlay
-        if (f_PingOverlayHide)
-        {
-            PingOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/NetworkLatency"), nullptr);
-            if (PingOverlay == nullptr)
-                return;
-
-            if (PingOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(PingOverlay, false, nullptr);
-        }
-        else
-        {
-            if (PingOverlay)
-            {
-                if (PingOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(PingOverlay, true, nullptr);
-
-                PingOverlay = nullptr;
-            }
-        }
-        //team overlay
-        if (f_TeamOverlayHide)
-        {
-            TeamOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/TeamBtnContainer"), nullptr);
-            if (TeamOverlay == nullptr)
-                return;
-
-            if (TeamOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(TeamOverlay, false, nullptr);
-        }
-        else
-        {
-            if (TeamOverlay)
-            {
-                if (TeamOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(TeamOverlay, true, nullptr);
-
-                TeamOverlay = nullptr;
-            }
-        }
-        //skills overlay
         if (f_SkillOverlayHide)
         {
-            // Skill2
+
             auto Skill2Grp = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/"), nullptr);
             if (Skill2Grp == nullptr)
                 return;
-
-            auto imageSkill2 = app::GameObject_GetComponentByName(Skill2Grp, string_to_il2cppi("Image"), nullptr);
-            SkillE::ImageComponent = app::Component_1_get_gameObject(imageSkill2, nullptr);
-            SkillE::Icon = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/Icon"), nullptr);
-            SkillE::CD = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/CD"), nullptr);
-            SkillE::CDEnd = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/CDEnd"), nullptr);
-            SkillE::UIEffectContainer = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/UIEffectContainer"), nullptr);
-            SkillE::ImgHighlight = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/ImgHighlight"), nullptr);
-            SkillE::Skillpoint = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/SkillPoint"), nullptr);
-            SkillE::Slot2Key = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/GrpSkill/Skill2Grp/Slot2Key"), nullptr);
-
-            // Skill5
             auto Skill5Grp = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/"), nullptr);
             if (Skill5Grp == nullptr)
                 return;
-
+            auto imageSkill2 = app::GameObject_GetComponentByName(Skill2Grp, string_to_il2cppi("Image"), nullptr);
             auto imageSkill5 = app::GameObject_GetComponentByName(Skill5Grp, string_to_il2cppi("Image"), nullptr);
-            SkillQ::ImageComponent = app::Component_1_get_gameObject(imageSkill5, nullptr);
-            SkillQ::MaxHalo = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/MaxHalo"), nullptr);
-            SkillQ::Effect = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Effect"), nullptr);
-            SkillQ::Icon = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Icon"), nullptr);
-            SkillQ::Progress = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Progress"), nullptr);
-            SkillQ::EnergyEffect = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/EnergyEffect"), nullptr);
-            SkillQ::CD = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/CD"), nullptr);
-            SkillQ::CDEnd = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/CDEnd"), nullptr);
-            SkillQ::UIEffectContainer = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/UIEffectContainer"), nullptr);
-            SkillQ::Slot5Key = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5Key"), nullptr);
+            auto skillRoot = "/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel";
+            std::map<std::string, std::vector<app::GameObject *>> SkillOverlays{
+                {"SkillE",
+                 {app::Component_1_get_gameObject(imageSkill2, nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/Icon",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/CD",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/CDEnd",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/UIEffectContainer",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/ImgHighlight",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2/ActionBtn_Skill2(Clone)/SkillPoint",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/GrpSkill/Skill2Grp/Slot2Key",skillRoot)), nullptr)}},
 
-            if (SkillE::ImageComponent->fields._.m_CachedPtr != nullptr)
-            {
-                // Skill2
-                app::GameObject_SetActive(SkillE::ImageComponent, false, nullptr);
-                app::GameObject_SetActive(SkillE::Icon, false, nullptr);
-                app::GameObject_SetActive(SkillE::CD, false, nullptr);  // you only need to disable CD once for all GrpSkill
-                app::GameObject_SetActive(SkillE::CDEnd, false, nullptr);
-                app::GameObject_SetActive(SkillE::UIEffectContainer, false, nullptr);
-                app::GameObject_SetActive(SkillE::ImgHighlight, false, nullptr);
-                app::GameObject_SetActive(SkillE::Skillpoint, false, nullptr);
-                app::GameObject_SetActive(SkillE::Slot2Key, false, nullptr);
-                // Skill5
-                app::GameObject_SetActive(SkillQ::ImageComponent, false, nullptr);
-                app::GameObject_SetActive(SkillQ::MaxHalo, false, nullptr);
-                app::GameObject_SetActive(SkillQ::Effect, false, nullptr);
-                app::GameObject_SetActive(SkillQ::Icon, false, nullptr);
-                app::GameObject_SetActive(SkillQ::Progress, false, nullptr);
-                app::GameObject_SetActive(SkillQ::EnergyEffect, false, nullptr);
-                app::GameObject_SetActive(SkillQ::CD, false, nullptr); // you only need to disable CD once for all GrpSkill
-                app::GameObject_SetActive(SkillQ::CDEnd, false, nullptr);
-                app::GameObject_SetActive(SkillQ::UIEffectContainer, false, nullptr);
-                app::GameObject_SetActive(SkillQ::Slot5Key, false, nullptr);
-            }
+                {"SkillQ",
+                 {app::Component_1_get_gameObject(imageSkill5, nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/MaxHalo",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Effect",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Icon",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/Progress",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/EnergyEffect",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/CD",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/CDEnd",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5/ActionBtn_Skill5_PC(Clone)/UIEffectContainer",skillRoot)), nullptr),
+                  app::GameObject_Find(string_to_il2cppi(fmt::format("{}/Canvas/Pages/InLevelMainPage/GrpMainPage/ActionPanelContainer/ActionBtnPanel/Skill5Grp/Slot5Key",skillRoot)), nullptr)}}};
+            for (auto &skill : SkillOverlays)
+                for (auto &obj : skill.second)
+                    if (obj->fields._.m_CachedPtr != nullptr)
+                        app::GameObject_SetActive(obj, f_SkillOverlayHide, nullptr);    
         }
-        else
-        {
-            if (SkillE::ImageComponent)
-            {
-                if (SkillE::ImageComponent->fields._.m_CachedPtr != nullptr)
-                {
-                    // Skill2
-                    app::GameObject_SetActive(SkillE::ImageComponent, true, nullptr);
-                    app::GameObject_SetActive(SkillE::Icon, true, nullptr);
-                    //app::GameObject_SetActive(SkillE::CD, true, nullptr);
-                    app::GameObject_SetActive(SkillE::CDEnd, true, nullptr);
-                    app::GameObject_SetActive(SkillE::UIEffectContainer, true, nullptr);
-                    app::GameObject_SetActive(SkillE::ImgHighlight, true, nullptr);
-                    app::GameObject_SetActive(SkillE::Skillpoint, true, nullptr);
-                    app::GameObject_SetActive(SkillE::Slot2Key, true, nullptr);
-
-                    // Skill5
-                    app::GameObject_SetActive(SkillQ::ImageComponent, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::MaxHalo, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::Effect, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::Icon, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::Progress, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::EnergyEffect, true, nullptr);
-                    //app::GameObject_SetActive(SkillQ::CD, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::CDEnd, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::UIEffectContainer, true, nullptr);
-                    app::GameObject_SetActive(SkillQ::Slot5Key, true, nullptr);
-
-                }
-
-                SkillE::ImageComponent = nullptr;
-                SkillE::Icon = nullptr;
-                SkillE::CD = nullptr;
-                SkillE::CDEnd = nullptr;
-                SkillE::UIEffectContainer = nullptr;
-                SkillE::ImgHighlight = nullptr;
-                SkillE::Skillpoint = nullptr;
-                SkillE::Slot2Key = nullptr;
-
-                SkillQ::ImageComponent = nullptr;
-                SkillQ::MaxHalo = nullptr;
-                SkillQ::Effect = nullptr;
-                SkillQ::Icon = nullptr;
-                SkillQ::Progress = nullptr;
-                SkillQ::EnergyEffect = nullptr;
-                SkillQ::CD = nullptr;
-                SkillQ::CDEnd = nullptr;
-                SkillQ::UIEffectContainer = nullptr;
-                SkillQ::Slot5Key = nullptr;
-            }
-        }
-        //hp bar Overlay
-        if (f_HpOverlayHide)
-        {
-            HpOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/GameInfo"), nullptr);
-            if (HpOverlay == nullptr)
-                return;
-
-            if (HpOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(HpOverlay, false, nullptr);
-        }
-        else
-        {
-            if (HpOverlay)
-            {
-                if (HpOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(HpOverlay, true, nullptr);
-
-                HpOverlay = nullptr;
-            }
-        }
-        //chat Overlay
-        if (f_ChatOverlayHide)
-        {
-            ChatOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/Chat"), nullptr);
-            if (ChatOverlay == nullptr)
-                return;
-
-            if (ChatOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(ChatOverlay, false, nullptr);
-        }
-        else
-        {
-            if (ChatOverlay)
-            {
-                if (ChatOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(ChatOverlay, true, nullptr);
-
-                ChatOverlay = nullptr;
-            }
-        }
-        //reward overlay
-        if (f_RewardOverlayHide)
-        {
-            RewardOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/SpecialDialogs"), nullptr);
-            if (RewardOverlay == nullptr)
-                return;
-
-            if (RewardOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(RewardOverlay, false, nullptr);
-        }
-        else
-        {
-            if (RewardOverlay)
-            {
-                if (RewardOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(RewardOverlay, true, nullptr);
-
-                RewardOverlay = nullptr;
-            }
-        }
-        //interact overlay
-        if (f_InteractOverlayHide)
-        {
-            InteractOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/Pages/InLevelMainPage/GrpMainPage/InteePanel/Viewport"), nullptr);
-            if (InteractOverlay == nullptr)
-                return;
-
-            if (InteractOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(InteractOverlay, false, nullptr);
-        }
-        else
-        {
-            if (InteractOverlay)
-            {
-                if (InteractOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(InteractOverlay, true, nullptr);
-
-                InteractOverlay = nullptr;
-            }
-        }
-        //ar level overlay
-        if (f_ArLevelOverlayHide)
-        {
-            ArLevelOverlay = app::GameObject_Find(string_to_il2cppi("/Canvas/SuspendBars/PlayerExpTipsDialog"), nullptr);
-            if (ArLevelOverlay == nullptr)
-                return;
-
-            if (ArLevelOverlay->fields._.m_CachedPtr != nullptr)
-                app::GameObject_SetActive(ArLevelOverlay, false, nullptr);
-        }
-        else
-        {
-            if (ArLevelOverlay)
-            {
-                if (ArLevelOverlay->fields._.m_CachedPtr != nullptr)
-                    app::GameObject_SetActive(ArLevelOverlay, true, nullptr);
-
-                ArLevelOverlay = nullptr;
-            }
-        }
+        
+        
     }
 }
